@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUrlDTO {
+export class UpdateUrlDTO {
   @ApiProperty()
   description: string;
 
@@ -21,10 +21,4 @@ export class CreateUrlDTO {
     default: false,
   })
   protected: boolean;
-
-  @ApiProperty({
-    description: 'Number of clicks on link',
-    default: 0,
-  })
-  click: number;
 }

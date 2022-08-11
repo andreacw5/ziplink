@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Url } from './models/url/url.entity';
-import { UrlsModule } from './models/url/urls.module';
+import { Url } from '../url/url.entity';
+import { UrlsModule } from '../url/urls.module';
 import { ConfigModule } from '@nestjs/config';
+import { configValidationSchema } from '../../configs/config.schema';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+      validationSchema: configValidationSchema,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_HOST || 'localhost',

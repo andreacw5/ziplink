@@ -1,17 +1,18 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   Logger,
   NotFoundException,
   Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+  Post, Put,
+  Query
+} from "@nestjs/common";
 import { UrlsService } from './urls.service';
 import { Url } from './url.entity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUrlDTO } from './dto/create-url-dto';
+import { UpdateUrlDTO } from './dto/edit-url-dto';
 
 @ApiTags('urls')
 @Controller('urls')
@@ -39,14 +40,39 @@ export class UrlsController {
     }
   }
 
-  @ApiOperation({ summary: 'Create article' })
+  @ApiOperation({ summary: 'Create url' })
   @ApiResponse({
     status: 201,
-    description: 'The article has been successfully created.',
+    description: 'The url has been successfully created.',
   })
   @Post()
   async create(@Body() createUrlDTO: CreateUrlDTO): Promise<Url> {
     this.logger.log(`Request to create url: ${JSON.stringify(createUrlDTO)}`);
     return await this.urlsService.create(createUrlDTO);
+  }
+
+  @ApiOperation({ summary: 'Update url' })
+  @ApiResponse({
+    status: 201,
+    description: 'The url has been successfully updated.',
+  })
+  @Put('/:id')
+  async update(
+    @Param('id') id,
+    @Body() updateUrlDTO: UpdateUrlDTO,
+  ): Promise<Url> {
+    this.logger.log(`Request to update url: ${JSON.stringify(updateUrlDTO)}`);
+    return await this.urlsService.update(id, updateUrlDTO);
+  }
+
+  @ApiOperation({ summary: 'Delete url' })
+  @ApiResponse({
+    status: 201,
+    description: 'The url has been successfully deleted.',
+  })
+  @Delete('/:id')
+  async deleteOne(@Param('id') id): Promise<any> {
+    this.logger.log(`Request to delete url: ${id}`);
+    return await this.urlsService.deleteOne(id);
   }
 }

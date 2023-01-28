@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -10,12 +11,19 @@ import {
   Put,
   Query,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { UrlsService } from './urls.service';
 import { Url } from './url.entity';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBasicAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUrlDTO } from './dto/create-url-dto';
 import { UpdateUrlDTO } from './dto/edit-url-dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('urls')
 @Controller('urls')
@@ -48,9 +56,19 @@ export class UrlsController {
     status: 201,
     description: 'The url has been successfully created.',
   })
+  @ApiBasicAuth('api-key')
+  @UseGuards(AuthGuard('api-key'))
   @Post()
   async create(@Body() createUrlDTO: CreateUrlDTO): Promise<Url> {
     this.logger.log(`Request to create url: ${JSON.stringify(createUrlDTO)}`);
+    // Check if code is already used
+    const url = await this.urlsService.findOne({ code: createUrlDTO.code });
+    if (url) {
+      this.logger.log(`Url with code ${createUrlDTO.code} already exists`);
+      throw new BadRequestException({
+        message: `Url with code ${createUrlDTO.code} already exists`,
+      });
+    }
     return await this.urlsService.create(createUrlDTO);
   }
 
@@ -61,6 +79,8 @@ export class UrlsController {
   })
   @ApiResponse({ status: 404, description: 'Url not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiBasicAuth('api-key')
+  @UseGuards(AuthGuard('api-key'))
   @Put('/:id')
   async update(
     @Param('id') id,
@@ -88,6 +108,8 @@ export class UrlsController {
   })
   @ApiResponse({ status: 404, description: 'Url not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiBasicAuth('api-key')
+  @UseGuards(AuthGuard('api-key'))
   @Delete('/:id')
   async deleteOne(@Param('id') id): Promise<any> {
     this.logger.log(`Request to delete url: ${id}`);

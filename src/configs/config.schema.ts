@@ -9,4 +9,7 @@ export const configValidationSchema = Joi.object({
   DATABASE_PASSWORD: Joi.string().default('').required(),
   DEFAULT_REDIRECT_URL: Joi.string().default('https://google.com').required(),
   DEFAULT_URL_CODE: Joi.string().default('code').required(),
+  API_KEY: Joi.string()
+    .default('4ca685c8-0bd2-46f9-8e37-b74c8a261940')
+    .required(),
 });

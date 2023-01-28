@@ -2,10 +2,8 @@
 Url manager system with Rest API for management of short urls, click statistics and redirects by personalized codes
 
 ## Next planned functionality
- - Authentication for short management
  - More detailed statistics for short urls
  - Metrics for short urls
- - Dockerization
  - Github actions for build
  - Deployment with frontend management page
 
@@ -55,6 +53,10 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Authentication for management
+The authentication is based on single static token, stored on env `API_KEY` variable.
+Request for create/edit/delete urls need `X-API-KEY` header with the value of `API_KEY`.
 
 ## Stay in touch
 - Author - [Andrea Tombolato](https://andreacw.dev)

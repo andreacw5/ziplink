@@ -5,6 +5,7 @@ import { Url } from '../url/url.entity';
 import { UrlsModule } from '../url/urls.module';
 import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from '../../configs/config.schema';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { configValidationSchema } from '../../configs/config.schema';
       synchronize: true,
     }),
     UrlsModule,
+    AuthModule,
   ],
   controllers: [AppController],
 })

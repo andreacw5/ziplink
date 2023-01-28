@@ -1,13 +1,16 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   Logger,
   NotFoundException,
   Param,
-  Post, Put,
-  Query
-} from "@nestjs/common";
+  Post,
+  Put,
+  Query,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UrlsService } from './urls.service';
 import { Url } from './url.entity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -56,12 +59,25 @@ export class UrlsController {
     status: 201,
     description: 'The url has been successfully updated.',
   })
+  @ApiResponse({ status: 404, description: 'Url not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Put('/:id')
   async update(
     @Param('id') id,
     @Body() updateUrlDTO: UpdateUrlDTO,
   ): Promise<Url> {
     this.logger.log(`Request to update url: ${JSON.stringify(updateUrlDTO)}`);
+    // Check if url exists
+    const url = await this.urlsService.findOneOrFail({ id });
+    if (!url) {
+      this.logger.log(`Url not found with id: ${id}`);
+      throw new NotFoundException();
+    }
+    // Check if url is protected
+    if (url.protected) {
+      this.logger.log(`Url ${id} is protected and can't be updated by user`);
+      throw new UnauthorizedException();
+    }
     return await this.urlsService.update(id, updateUrlDTO);
   }
 
@@ -70,9 +86,22 @@ export class UrlsController {
     status: 201,
     description: 'The url has been successfully deleted.',
   })
+  @ApiResponse({ status: 404, description: 'Url not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Delete('/:id')
   async deleteOne(@Param('id') id): Promise<any> {
     this.logger.log(`Request to delete url: ${id}`);
+    // Check if url exists
+    const url = await this.urlsService.findOneOrFail({ id });
+    if (!url) {
+      this.logger.log(`Url not found with id: ${id}`);
+      throw new NotFoundException();
+    }
+    // Check if url is protected
+    if (url.protected) {
+      this.logger.log(`Url ${id} is protected and can't be deleted by user`);
+      throw new UnauthorizedException();
+    }
     return await this.urlsService.deleteOne(id);
   }
 }

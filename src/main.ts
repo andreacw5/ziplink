@@ -32,7 +32,6 @@ async function bootstrap() {
       host: configService.get('database.host'),
       port: configService.get('database.port'),
       username: configService.get('database.username'),
-      password: configService.get('database.password'),
       name: configService.get('database.name'),
     },
     defaults: {

@@ -16,7 +16,7 @@ export class HeaderApiKeyStrategy extends PassportStrategy(
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   public validate = (apiKey: string, done: (error: Error, data) => {}) => {
-    if (this.configService.get<string>('API_KEY') === apiKey) {
+    if (this.configService.get<string>('auth.key') === apiKey) {
       done(null, true);
     }
     done(new UnauthorizedException(), null);

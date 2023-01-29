@@ -19,10 +19,11 @@ Url manager system with Rest API for management of short urls, click statistics 
 | DATABASE_HOST        | database url                                  | localhost          |
 | DATABASE_PORT        | database port number                          | 5432               |
 | DATABASE_NAME        | database name                                 | url-manager        |
-| DATABASE_USER        | database username                             | postgres           |
+| DATABASE_USERNAME    | database username                             | postgres           |
 | DATABASE_PASSWORD    | database password                             |                    |
 | DEFAULT_REDIRECT_URL | default redirect if code is not found         | https://google.com |
 | DEFAULT_URL_CODE     | default code for redirect for click recording | code               |
+| API_KEY              | auth token for CUD Endpoints                  | 2342358            |
 
 
 ## Installation

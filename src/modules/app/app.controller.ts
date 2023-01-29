@@ -10,11 +10,11 @@ export class AppController {
   ) {}
   private readonly logger = new Logger(AppController.name);
   private readonly DEFAULT_REDIRECT_URL = this.configService.get<string>(
-    'DEFAULT_REDIRECT_URL',
+    'defaults.redirectUrl',
     'https://google.it',
   );
   private readonly DEFAULT_URL_CODE = this.configService.get<string>(
-    'DEFAULT_URL_CODE',
+    'defaults.urlCode',
     'code',
   );
 

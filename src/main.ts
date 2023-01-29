@@ -25,5 +25,20 @@ async function bootstrap() {
   await app.listen(appPort);
 
   Logger.log('App is running and is listening at: http://localhost:' + appPort);
+
+  // Log all environment variables
+  Logger.log('Configured environment variables:', {
+    database: {
+      host: configService.get('database.host'),
+      port: configService.get('database.port'),
+      username: configService.get('database.username'),
+      password: configService.get('database.password'),
+      name: configService.get('database.name'),
+    },
+    defaults: {
+      urlCode: configService.get('defaults.urlCode'),
+      redirectUrl: configService.get('defaults.redirectUrl'),
+    },
+  });
 }
 bootstrap();

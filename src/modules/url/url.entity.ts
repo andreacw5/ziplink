@@ -8,6 +8,7 @@ export class Url extends BaseEntity {
   @Column({ nullable: true })
   description: string;
 
+  @Column()
   url: string;
 
   @Column({ unique: true })

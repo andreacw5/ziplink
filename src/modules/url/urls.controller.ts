@@ -17,6 +17,7 @@ import { UrlsService } from './urls.service';
 import { Url } from './url.entity';
 import {
   ApiBasicAuth,
+  ApiHeaders,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -36,7 +37,7 @@ export class UrlsController {
   @Get()
   async index(@Query() query): Promise<Url[]> {
     this.logger.log(`Request all chats with options: ${JSON.stringify(query)}`);
-    return await this.urlsService.findAll();
+    return await this.urlsService.findAll(query);
   }
 
   @ApiOperation({ summary: 'Get url by code' })
@@ -56,6 +57,12 @@ export class UrlsController {
     status: 201,
     description: 'The url has been successfully created.',
   })
+  @ApiHeaders([
+    {
+      name: 'X-API-KEY',
+      description: 'Auth API key',
+    },
+  ])
   @ApiBasicAuth('api-key')
   @UseGuards(AuthGuard('api-key'))
   @Post()
@@ -79,6 +86,12 @@ export class UrlsController {
   })
   @ApiResponse({ status: 404, description: 'Url not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiHeaders([
+    {
+      name: 'X-API-KEY',
+      description: 'Auth API key',
+    },
+  ])
   @ApiBasicAuth('api-key')
   @UseGuards(AuthGuard('api-key'))
   @Put('/:id')
@@ -88,7 +101,7 @@ export class UrlsController {
   ): Promise<Url> {
     this.logger.log(`Request to update url: ${JSON.stringify(updateUrlDTO)}`);
     // Check if url exists
-    const url = await this.urlsService.findOneOrFail({ id });
+    const url = await this.urlsService.findOne({ id });
     if (!url) {
       this.logger.log(`Url not found with id: ${id}`);
       throw new NotFoundException();
@@ -106,6 +119,12 @@ export class UrlsController {
     status: 201,
     description: 'The url has been successfully deleted.',
   })
+  @ApiHeaders([
+    {
+      name: 'X-API-KEY',
+      description: 'Auth API key',
+    },
+  ])
   @ApiResponse({ status: 404, description: 'Url not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiBasicAuth('api-key')
@@ -114,7 +133,7 @@ export class UrlsController {
   async deleteOne(@Param('id') id): Promise<any> {
     this.logger.log(`Request to delete url: ${id}`);
     // Check if url exists
-    const url = await this.urlsService.findOneOrFail({ id });
+    const url = await this.urlsService.findOne({ id });
     if (!url) {
       this.logger.log(`Url not found with id: ${id}`);
       throw new NotFoundException();

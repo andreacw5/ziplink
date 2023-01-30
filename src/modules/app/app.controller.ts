@@ -1,6 +1,7 @@
 import { Controller, Get, Logger, Param, Res } from '@nestjs/common';
 import { UrlsService } from '../url/urls.service';
 import { ConfigService } from '@nestjs/config';
+import { ApiOperation, ApiParam, ApiResponse } from "@nestjs/swagger";
 
 @Controller()
 export class AppController {
@@ -25,6 +26,9 @@ export class AppController {
     await res.redirect(this.DEFAULT_REDIRECT_URL);
   }
 
+  @ApiOperation({ summary: 'Redirect by code' })
+  @ApiParam({ name: 'code', description: 'The code to redirect' })
+  @ApiResponse({ status: 200, description: 'Redirect returned' })
   @Get('/:code')
   async redirectToCode(@Param('code') code, @Res() res) {
     this.logger.log(`Redirect to ${code} requested`);

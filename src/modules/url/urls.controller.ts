@@ -26,7 +26,7 @@ import { UpdateUrlDTO } from './dto/edit-url-dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('urls')
-@Controller('urls')
+@Controller('/api/urls')
 export class UrlsController {
   constructor(private readonly urlsService: UrlsService) {}
   private readonly logger = new Logger(UrlsController.name);

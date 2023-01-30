@@ -1,6 +1,6 @@
 {
   "name": "url-manager-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Url manager system with Rest API for management of short urls, click statistics and redirects by personalized codes",
   "author": "Andrea Tombolato <andreacw96@gmail.com> (https://github.com/andreacw5)",
   "private": true,

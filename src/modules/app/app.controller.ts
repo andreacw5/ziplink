@@ -1,7 +1,7 @@
 import { Controller, Get, Logger, Param, Res } from '@nestjs/common';
 import { UrlsService } from '../url/urls.service';
 import { ConfigService } from '@nestjs/config';
-import { ApiOperation, ApiParam, ApiResponse } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
@@ -42,5 +42,15 @@ export class AppController {
     this.logger.log(`Requested code ${code} founded redirect to ${url.url}`);
     await this.urlsService.updateClickCounter(code);
     await res.redirect(url.url);
+  }
+
+  @ApiOperation({ summary: 'Get application status' })
+  @ApiResponse({ status: 200, description: 'Redirect returned' })
+  @Get('/api/status')
+  async appStatus() {
+    return {
+      code: 200,
+      status: 'ok',
+    };
   }
 }

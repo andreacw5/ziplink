@@ -9,7 +9,6 @@ async function bootstrap() {
   const appOptions = { cors: true };
   const app = await NestFactory.create(AppModule, appOptions);
   app.useGlobalFilters(new HttpExceptionFilter());
-  // app.setGlobalPrefix('api');
   const configService = app.get(ConfigService);
 
   // Swagger setup

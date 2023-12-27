@@ -15,8 +15,8 @@ export class UrlsService {
   /**
    * Find all urls
    */
-  findAll(): Promise<Url[]> {
-    return this.urlsRepository.find();
+  findAll(query): Promise<Url[]> {
+    return this.urlsRepository.find(query);
   }
 
   /**

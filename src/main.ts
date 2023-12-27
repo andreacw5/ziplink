@@ -39,4 +39,6 @@ async function bootstrap() {
     },
   });
 }
-bootstrap();
+bootstrap().then(() => {
+  Logger.log('App running now!');
+});

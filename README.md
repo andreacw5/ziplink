@@ -1,27 +1,29 @@
 # Short URL Generator
 
 ## Description
-This application allows users to create short, personalized URLs using Nest.js.
+This application empowers users to generate short, personalized URLs using Nest.js.
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Follow these instructions to set up the project on your local machine for development and testing purposes.
  - Clone the repository to your local machine: `git clone https://github.com/andreacw5/short-url-generator.git`
  - Install dependencies: `yarn install`
  - Start the application: `yarn start:dev`
  - Visit `http://localhost:3000` in your browser to use the application.
 
 ## Features
- - Create short urls
- - Edit short urls
- - Delete short urls
- - Redirect to default url if code is not found
- - Click recording for short urls
+ - Create short URLs
+ - Edit short URLs
+ - Delete short URLs
+ - Redirect to the default URL if the code is not found
+ - Click recording for short URLs
  - Dockerized application
  - GitHub actions for build
- - API Auth token for CUD endpoints
+ - API Auth token for create, update, and delete endpoints
+ - Swagger documentation
 
 ## Next planned functionality
  - More detailed statistics for short urls
+ - Testing with Jest
  - Deployment with frontend management page
 
 ## Built With
@@ -31,10 +33,10 @@ These instructions will get you a copy of the project up and running on your loc
 ## Requirements
 - [Node.js](https://nodejs.org/en/download/) 18.10.0 or higher
 - [Yarn](https://yarnpkg.com/en/) 1.10.1 or higher
+- [PostgreSQL](https://www.postgresql.org/download/) 12.0 or higher
 
 ## Authentication for management
-The authentication is based on single static token, stored on env `API_KEY` variable.
-Request for create/edit/delete urls need `X-API-KEY` header with the value of `API_KEY`.
+Authentication is based on a single static token stored in the `API_KEY` environment variable. Requests for create/edit/delete URLs require the `X-API-KEY` header with the value of `API_KEY`.
 
 ## Environment Variables
 | code                 | description                                   | default value      |
@@ -52,7 +54,7 @@ Request for create/edit/delete urls need `X-API-KEY` header with the value of `A
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/andreacw5/url-manager-app/releases).
 
 ## Author
-- [Andrea Tombolato](https://andreacw.dev)
+- [Andrea Tombolato](https://andreatombolato.dev)
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

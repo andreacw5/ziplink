@@ -1,17 +1,34 @@
-FROM node:18.10.0-alpine AS builder
+FROM node:20.11.1-alpine AS base
 
-WORKDIR "/app"
+ENV NODE_ENV build
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY package.json yarn.lock ./
+
+RUN yarn install --frozen-lockfile
+
+# Bundle app source
 COPY . .
-RUN yarn --frozen-lockfile
+
 RUN yarn build
 
-FROM node:18.10.0-alpine AS production
+FROM base as prod-build
 
-WORKDIR "/app"
+# Set the NODE_ENV to production
+ENV NODE_ENV production
 
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/yarn.lock ./yarn.lock
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
+# Create app directory
+WORKDIR /usr/src/app
 
-CMD [ "sh", "-c", "yarn start:prod"]
+# Install app dependencies
+COPY package.json yarn.lock ./
+
+RUN yarn install --production --frozen-lockfile
+
+COPY --from=base /usr/src/app/dist ./dist
+
+# Start the server using the production build
+CMD [ "node", "dist/main.js" ]

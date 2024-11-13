@@ -1,8 +1,6 @@
-.dockerignore
-.env.sample
-.gitignore
 .history
-Dockerfile
-README.md
 node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
 dist

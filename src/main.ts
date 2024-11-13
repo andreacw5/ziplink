@@ -17,7 +17,7 @@ async function bootstrap() {
     .setDescription(
       'Url manager system with Rest API for management of short urls, click statistics and redirects by personalized code',
     )
-    .setVersion('1.1.2')
+    .setVersion('1.1.3')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/docs', app, document);
